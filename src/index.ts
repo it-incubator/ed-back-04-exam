@@ -1,18 +1,10 @@
 import 'dotenv/config'
-import express, {Request, Response} from 'express'
 import {MongoClient} from 'mongodb'
+import {app} from './init-app';
+import {settings} from './settings';
 
-const mongoUri = process.env.mongoURI || 'mongodb://0.0.0.0:27017'
+const mongoUri = settings.MONGO_URI
 export const client = new MongoClient(mongoUri)
-
-const app = express()
-
-app.use(express.json())
-
-app.get('/hello',
-    async (req: Request, res: Response) => {
-        res.send({value: 'OK, db is connected'})
-    })
 
 export async function startApp() {
     await client.connect()
